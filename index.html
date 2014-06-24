@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Coffee-protocol by ajacksified</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/ajacksified/coffee-protocol">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/ajacksified/coffee-protocol/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/ajacksified/coffee-protocol/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Coffee-protocol</h1>
+          <p>Classes for implementation of RFC 2325</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/ajacksified">ajacksified</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="coffee-protocol" class="anchor" href="#coffee-protocol"><span class="octicon octicon-link"></span></a>Coffee-Protocol</h1>
+
+<p>An implementation of <a href="http://tools.ietf.org/html/rfc2325">RFC 2325</a> to help
+with the implementation of an <a href="http://tools.ietf.org/html/rfc2324">HTCPCP</a>
+compliant server.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Use <code>npm install coffee-protocol</code>, or clone the repository into your preferred
+location.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Objects are defined in accordance with <a href="http://tools.ietf.org/html/rfc2325#section-4">section 4</a>
+of the RFC and can be used as follows:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">coffeeProtocol</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./index'</span><span class="p">),</span>
+    <span class="nx">q</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'q'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">pot</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">Pot</span><span class="p">({</span>
+  <span class="nx">potName</span><span class="o">:</span> <span class="s1">'Office French Press'</span><span class="p">,</span>
+  <span class="nx">potType</span><span class="o">:</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">potTypes</span><span class="p">[</span><span class="s1">'french-press'</span><span class="p">],</span>
+  <span class="nx">potCapacity</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nx">potLocation</span><span class="o">:</span> <span class="s1">'The kitchen'</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">PotAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotAdapter</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">getStartTime</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Communicate to your coffee pot.</span>
+    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+    <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">());</span>
+    <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+  <span class="p">},</span>
+  <span class="nx">getTemperature</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Communicate to your coffee pot.</span>
+    <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+  <span class="p">},</span>
+  <span class="nx">getStatus</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Communicate to your coffee pot.</span>
+    <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">potMonitorStatuses</span><span class="p">.</span><span class="nx">waiting</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">potMonitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotMonitor</span><span class="p">(</span><span class="k">new</span> <span class="nx">PotAdapter</span><span class="p">(),</span> <span class="p">{</span>
+  <span class="nx">potLevel</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">potMetric</span><span class="o">:</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">potMonitorMetrics</span><span class="p">.</span><span class="nx">mug</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+
+<span class="nx">pot</span><span class="p">.</span><span class="nx">setPotLocation</span><span class="p">(</span><span class="s1">'The desk of Jack Lawson'</span><span class="p">);</span>
+<span class="nx">potMonitor</span><span class="p">.</span><span class="nx">setPotStartTime</span><span class="p">(</span><span class="nx">startTime</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1">// potMonitor `get`s are promises in case we have to do an async request to get</span>
+<span class="c1">// coffee pot status through potAdapter.</span>
+
+<span class="nx">potMonitor</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potStartTime'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">time</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'wat'</span><span class="p">)</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">)</span> <span class="p">})</span>
+</pre></div>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
