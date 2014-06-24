@@ -67,14 +67,7 @@ of the RFC and can be used as follows:</p>
   <span class="nx">potLocation</span><span class="o">:</span> <span class="s1">'The kitchen'</span>
 <span class="p">});</span>
 
-<span class="kd">var</span> <span class="nx">PotAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotAdapter</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-  <span class="nx">getStartTime</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
-    <span class="c1">// Communicate to your coffee pot.</span>
-    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
-    <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">());</span>
-    <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
-  <span class="p">},</span>
+<span class="kd">var</span> <span class="nx">PotAdapter</span> <span class="o">=</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotAdapter</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">getTemperature</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
     <span class="c1">// Communicate to your coffee pot.</span>
@@ -86,26 +79,38 @@ of the RFC and can be used as follows:</p>
     <span class="c1">// Communicate to your coffee pot.</span>
     <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">potMonitorStatuses</span><span class="p">.</span><span class="nx">waiting</span><span class="p">);</span>
     <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">getStartTime</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">defer</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Communicate to your coffee pot.</span>
+    <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span>
+    <span class="k">return</span> <span class="nx">defer</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+  <span class="p">},</span>
 <span class="p">});</span>
 
-<span class="kd">var</span> <span class="nx">potMonitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotMonitor</span><span class="p">(</span><span class="k">new</span> <span class="nx">PotAdapter</span><span class="p">(),</span> <span class="p">{</span>
+<span class="kd">var</span> <span class="nx">potAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PotAdapter</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">potMonitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">PotMonitor</span><span class="p">(</span><span class="nx">potAdapter</span><span class="p">,</span> <span class="p">{</span>
   <span class="nx">potLevel</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nx">potMetric</span><span class="o">:</span> <span class="nx">coffeeProtocol</span><span class="p">.</span><span class="nx">potMonitorMetrics</span><span class="p">.</span><span class="nx">mug</span>
 <span class="p">});</span>
 
-<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
-<span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">));</span>
 
 <span class="nx">pot</span><span class="p">.</span><span class="nx">setPotLocation</span><span class="p">(</span><span class="s1">'The desk of Jack Lawson'</span><span class="p">);</span>
-<span class="nx">potMonitor</span><span class="p">.</span><span class="nx">setPotStartTime</span><span class="p">(</span><span class="nx">startTime</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="nx">potMonitor</span><span class="p">.</span><span class="nx">setPotStartTime</span><span class="p">(</span><span class="nx">startTime</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">);</span>
 
 <span class="c1">// potMonitor `get`s are promises in case we have to do an async request</span>
 <span class="c1">// to get coffee pot status through potAdapter.</span>
-
 <span class="nx">potMonitor</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potStartTime'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">time</span><span class="p">){</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'wat'</span><span class="p">)</span>
-<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">)</span> <span class="p">})</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+    <span class="nx">pot</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potName'</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" will start at time "</span> <span class="o">+</span> <span class="nx">potMonitor</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potStartTime'</span><span class="p">)</span> <span class="o">+</span>
+    <span class="s2">" at location "</span> <span class="o">+</span> <span class="nx">pot</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potLocation'</span><span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+<span class="p">});</span>
 </pre></div>
       </section>
 
