@@ -62,8 +62,8 @@ var startTime = new Date(date.getTime() + (30 * 60 * 1000));
 pot.setPotLocation('The desk of Jack Lawson');
 potMonitor.setPotStartTime(startTime.getTime() / 1000);
 
-// potMonitor `get`s are promises in case we have to do an async request to get
-// coffee pot status through potAdapter.
+// potMonitor `get`s are promises in case we have to do an async request
+// to get coffee pot status through potAdapter.
 potMonitor.get('potStartTime').then(function(time){
   console.log(
     pot.get('potName') + " will start at time " + potMonitor.get('potStartTime') +
