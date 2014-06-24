@@ -100,8 +100,8 @@ of the RFC and can be used as follows:</p>
 <span class="nx">pot</span><span class="p">.</span><span class="nx">setPotLocation</span><span class="p">(</span><span class="s1">'The desk of Jack Lawson'</span><span class="p">);</span>
 <span class="nx">potMonitor</span><span class="p">.</span><span class="nx">setPotStartTime</span><span class="p">(</span><span class="nx">startTime</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
 
-<span class="c1">// potMonitor `get`s are promises in case we have to do an async request to get</span>
-<span class="c1">// coffee pot status through potAdapter.</span>
+<span class="c1">// potMonitor `get`s are promises in case we have to do an async request</span>
+<span class="c1">// to get coffee pot status through potAdapter.</span>
 
 <span class="nx">potMonitor</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'potStartTime'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">time</span><span class="p">){</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'wat'</span><span class="p">)</span>
