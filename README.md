@@ -28,14 +28,7 @@ var pot = new coffeeProtocol.Pot({
   potLocation: 'The kitchen'
 });
 
-var PotAdapter = new coffeeProtocol.PotAdapter.extend({
-  getStartTime: function(){
-    var defer = q.defer();
-    // Communicate to your coffee pot.
-    var date = new Date()
-    defer.resolve(date.getTime());
-    return defer.promise;
-  },
+var PotAdapter = coffeeProtocol.PotAdapter.extend({
   getTemperature: function(){
     var defer = q.defer();
     // Communicate to your coffee pot.
@@ -47,25 +40,37 @@ var PotAdapter = new coffeeProtocol.PotAdapter.extend({
     // Communicate to your coffee pot.
     defer.resolve(coffeeProtocol.potMonitorStatuses.waiting);
     return defer.promise;
-  }
+  },
+  getStartTime: function(){
+    var defer = q.defer();
+    // Communicate to your coffee pot.
+    defer.resolve(Date.now());
+    return defer.promise;
+  },
 });
 
-var potMonitor = new coffeeProtocol.PotMonitor(new PotAdapter(), {
+var potAdapter = new PotAdapter();
+
+var potMonitor = new coffeeProtocol.PotMonitor(potAdapter, {
   potLevel: 0,
   potMetric: coffeeProtocol.potMonitorMetrics.mug
 });
 
-var date = new Date()
-var startTime = new Date(date.getTime() + (30 * 60 * 1000))
+var date = new Date();
+var startTime = new Date(date.getTime() + (30 * 60 * 1000));
 
 pot.setPotLocation('The desk of Jack Lawson');
-potMonitor.setPotStartTime(startTime.getTime() / 1000)
+potMonitor.setPotStartTime(startTime.getTime() / 1000);
 
 // potMonitor `get`s are promises in case we have to do an async request to get
 // coffee pot status through potAdapter.
-
 potMonitor.get('potStartTime').then(function(time){
-  console.log('wat')
-}, function(err){ console.log(arguments) })
+  console.log(
+    pot.get('potName') + " will start at time " + potMonitor.get('potStartTime') +
+    " at location " + pot.get('potLocation')
+  )
+}, function(){
+  console.log(arguments);
+});
 ```
 
