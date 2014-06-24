@@ -1,0 +1,27 @@
+{
+  "name": "coffee-protocol",
+  "version": "0.0.0",
+  "description": "Classes for implementation of RFC 2324",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ajacksified/coffee-protocol.git"
+  },
+  "keywords": [
+    "rfc",
+    "2324",
+    "coffee",
+    "htcpcp"
+  ],
+  "author": "Jack Lawson <ajacksified@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ajacksified/coffee-protocol/issues"
+  },
+  "homepage": "https://github.com/ajacksified/coffee-protocol",
+  "dependencies": {
+    "coffee-script": "^1.7.1",
+    "q": "^1.0.1"
+  }
+}
